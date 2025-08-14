@@ -138,6 +138,7 @@ const doctorLogin = async (req: Request, res: Response) => {
         if (!doctor) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
+    
         const isPasswordValid = await bcrypt.compare(password, doctor.password);
         if (!isPasswordValid) {
             return res.status(400).json({ message: "Invalid credentials" });

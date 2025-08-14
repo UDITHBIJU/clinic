@@ -23,3 +23,4 @@ const doctorSchema = new Schema<IDoctor>({
 });
 
 export const Doctor = mongoose.model<IDoctor>("Doctor", doctorSchema);
+ 

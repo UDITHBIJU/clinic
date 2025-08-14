@@ -62,10 +62,10 @@ export const getAppointments = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).user.id;
         const appointments = await Appointment.find({ user: userId })
+			.select("patientName patientAge date slot doctor")
             .populate("doctor", "username")
             .populate("slot", "startTime endTime")
             .sort({ date: -1 });
-
         res.status(200).json({ appointments });
     } catch (error) {
         console.error(error);

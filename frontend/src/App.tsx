@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import BookingPage from "./pages/BookingPage"; 
 import ProtectedRoute from "./components/ProtectedRoute";
+import AppointmentListPage from "./pages/AppointmentListPage";
 
 export default function App() {
 	return (
@@ -13,6 +14,14 @@ export default function App() {
 					element={
 						<ProtectedRoute allowedRole="user">
 							<BookingPage />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/appointments"
+					element={
+						<ProtectedRoute allowedRole="user">
+              <AppointmentListPage />
 						</ProtectedRoute>
 					}
 				/>

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Appointment } from "../models/appointment.model";
 import { Leave } from "../models/leave.model";
 import { Slot } from "../models/slot.model";
+import { Doctor } from "../models/doctor.model";
 
 export const bookAppointment = async (req: Request, res: Response) => {
 	try {
@@ -45,6 +46,7 @@ export const bookAppointment = async (req: Request, res: Response) => {
 			doctor: doctorId,
 			slot: slotId,
 			date: bookingDate,
+			user: (req as any).user.id,
 		});
 
 		res
@@ -69,4 +71,25 @@ export const getAppointments = async (req: Request, res: Response) => {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
+};
+
+export const getAllDoctors = async (req: Request, res: Response) => {
+	try {
+		const doctors = await Doctor.find({}).select("username speciality department _id");
+		console.log("Fetched doctors:", doctors);
+		res.status(200).json(doctors);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+}	
+
+export const getAvailableSlots = async (req: Request, res: Response) => {
+	try {
+		const slots = await Slot.find({});
+		res.status(200).json(slots);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
 };

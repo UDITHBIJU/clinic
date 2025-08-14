@@ -23,6 +23,7 @@ export default function BookingPage() {
 	const [date, setDate] = useState("");
 	const [slot, setSlot] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [successMessage, setSuccessMessage] = useState("");
 
 	useEffect(() => {
 		api.get("/api/user/doctors").then((res) => setDoctors(res.data));
@@ -47,7 +48,12 @@ export default function BookingPage() {
 				date,
 				slotId: slot,
 			});
-			alert("Appointment booked!");
+			setSuccessMessage("Appointment booked successfully!");
+
+			setTimeout(() => {
+				setSuccessMessage("");
+			}, 2000);
+
 			setSelectedDoctor(null);
 			setPatientName("");
 			setPatientAge("");
@@ -87,10 +93,12 @@ export default function BookingPage() {
 					</div>
 				))}
 			</div>
-
+			{successMessage && (
+				<p className="text-green-600 font-semibold mb-4">{successMessage}</p>
+			)}
 			{/* Booking Form Modal */}
 			{selectedDoctor && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
 					<div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
 						<h2 className="text-xl font-bold mb-4">
 							Book with Dr. {selectedDoctor.username}

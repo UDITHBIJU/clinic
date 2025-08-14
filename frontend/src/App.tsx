@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AppointmentListPage from "./pages/AppointmentListPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import SignupPage from "./pages/SignUpPage";
+import DoctorLeavePage from "./pages/DoctorLeavePage";
 
 export default function App() {
 	return (
@@ -29,6 +30,15 @@ export default function App() {
 							<DashboardLayout>
 								<AppointmentListPage />
 							</DashboardLayout>
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					path="/doctor/leave"
+					element={
+						<ProtectedRoute allowedRole="doctor">
+							<DoctorLeavePage />
 						</ProtectedRoute>
 					}
 				/>

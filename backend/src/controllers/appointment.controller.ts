@@ -14,6 +14,12 @@ export const bookAppointment = async (req: Request, res: Response) => {
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 
+		const startOfBookingDay = new Date(bookingDate);
+		startOfBookingDay.setHours(0, 0, 0, 0);
+		
+		const endOfBookingDay = new Date(bookingDate);
+		endOfBookingDay.setHours(23, 59, 59, 999);
+
 		const maxDate = new Date();
 		maxDate.setDate(today.getDate() + 30); 
 		if (bookingDate <= today) {
@@ -29,6 +35,16 @@ export const bookAppointment = async (req: Request, res: Response) => {
 		}
 		const slot = await Slot.findById(slotId);
 		if (!slot) return res.status(404).json({ message: "Slot not found" });
+
+		const isDoctorLeave = await Leave.findOne({
+			doctor: doctorId,
+			date: { $gte: startOfBookingDay, $lte: endOfBookingDay },
+			slot: slotId,
+		});
+
+		if (isDoctorLeave) {
+			return res.status(400).json({ message: "Doctor is on leave for this slot" });
+		}
 
 		const leave = await Leave.findOne({
 			doctor: doctorId,
@@ -76,7 +92,6 @@ export const getAppointments = async (req: Request, res: Response) => {
 export const getAllDoctors = async (req: Request, res: Response) => {
 	try {
 		const doctors = await Doctor.find({}).select("username speciality department _id");
-		console.log("Fetched doctors:", doctors);
 		res.status(200).json(doctors);
 	} catch (error) {
 		console.error(error);

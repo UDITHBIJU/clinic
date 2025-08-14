@@ -9,5 +9,5 @@ const router = Router();
 router.get("/appointments", authenticate(["user"]),getAppointments);
 router.post("/appointments/book", authenticate(["user"]), bookAppointment);
 router.get("/doctors", authenticate(["user"]), getAllDoctors);
-router.get("/slots", authenticate(["user"]), getAvailableSlots);
+router.get("/slots", authenticate(["user","doctor"]), getAvailableSlots);
 export default router;

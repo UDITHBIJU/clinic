@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -9,15 +9,30 @@ export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		const token = localStorage.getItem("accessToken");
+		if (token) {
+			const savedRole = localStorage.getItem("role") as
+				| "user"
+				| "doctor"
+			if (savedRole) {
+				navigate(savedRole === "user" ? "/booking" : "/doctor/leave", {
+					replace: true,
+				});
+			}
+		}
+	}, [navigate]);
+
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setError(null); 
+		setError(null);
 		try {
 			const { data } = await api.post(`/api/auth/${role}/login`, {
 				email,
 				password,
 			});
 			localStorage.setItem("accessToken", data.accessToken);
+			localStorage.setItem("role", role);
 			navigate(role === "user" ? "/booking" : "/doctor/leave");
 		} catch (err: any) {
 			const msg = err.response?.data?.message || "Login failed";

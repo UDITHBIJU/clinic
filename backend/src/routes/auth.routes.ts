@@ -27,5 +27,5 @@ router.post("/doctor/login", validate(loginSchema), doctorLogin);
 
 //common routes
 router.post("/refresh-token", refreshToken);
-router.post("/logout", authenticate, logout);
+router.post("/logout", authenticate(), logout);
 export default router;

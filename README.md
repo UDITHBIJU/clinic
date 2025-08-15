@@ -38,29 +38,14 @@
 **POST** `/user/appointments/book` - Book appoinment
 
 **Test Doctor Login**
-[
-  {
-    "username": "dr_smith",
-    "email": "dr.smith@example.com",
-    "password": "password",
- 
-  },
-  {
-    "username": "dr_jones",
-    "email": "dr.jones@example.com",
-    "password": "password",
-  },
-  {
-    "username": "dr_williams",
-    "email": "dr.williams@example.com",
-    "password": "password",
-  },
-   {
-    "username": "udith",
-    "email": "udithbiju2@gmail.com",
-    "password": "password",
-  }
-]
+username: dr_smith, email: dr.smith@example.com, password: password
+
+username: dr_jones, email: dr.jones@example.com, password: password
+
+username: dr_williams, email: dr.williams@example.com, password: password
+
+username: udith, email: udithbiju2@gmail.com, password: password
+
 
 ## Environment Configuration
 
